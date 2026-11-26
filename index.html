@@ -884,6 +884,17 @@ document.addEventListener('submit', async e => {
   try { await db.doc('config/settings').set(data); toast('انحفظت الإعدادات'); } catch(x) { toast('ما انحفظ'); }
 });
 
+// ====== الحركة السرية: 5 ضغطات على كلمة baked فوق تفتح لوحة المديرة ======
+let secretTaps = 0, secretTimer;
+document.querySelector('header .brand').addEventListener('click', e => {
+  secretTaps++; clearTimeout(secretTimer);
+  secretTimer = setTimeout(() => secretTaps = 0, 2000);   // لازم الضغطات الخمس خلال ثانيتين
+  if (secretTaps < 5) return;
+  e.preventDefault(); secretTaps = 0;
+  if (offline) return toast('لوحة المديرة تشتغل من رابط Claude بس');
+  if (isAdmin) location.hash = 'lolo-admin';               // غير المديرة ما يصير لها شي
+});
+
 // ====== نجوم ولؤلؤ تلحق الماوس ======
 if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
   const COLS = ['#f4adcf','#bfc4ff','#b2f9e7','#fffabf','#ffe7ff'];

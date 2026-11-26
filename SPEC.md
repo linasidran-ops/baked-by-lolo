@@ -18,6 +18,8 @@ The page detects the mode at load: if `window.claude.use` is missing, or `db` do
 Hash routes: `#home`, `#menu`, `#checkout`, `#done`, `#track`, `#special`, `#lolo-admin`.
 `#lolo-admin` renders only when the `user` capability reports `canEdit()`; anyone else is sent to `#home`. Admin mode hides the customer header, footer and cart.
 
+There is no visible admin link. The owner opens the dashboard with a secret gesture: 5 clicks on the "baked" logo in the header within 2 seconds. For non-owners the gesture does nothing.
+
 ## 4. Data model (online mode)
 
 | Path | Contents | Read | Write |
