@@ -345,7 +345,21 @@ const ICONS = {
 };
 
 // ====== الحالة ======
-let db = null, user = null, uid = null, isAdmin = false;
+let db = null, user = null, uid = null, isAdmin = false, offline = false;
+// المنيو الأساسي: يستخدمه الموقع لو انفتح برا Claude (من الملف أو من استضافة ثانية)
+const DEMO_PRODUCTS = [
+  { id: 'p_tower', name: 'برج الكوكيز', desc: 'حجم متوسط', price: 79, icon: 'tower', order: 1, active: true, featured: true },
+  { id: 'p_diy', name: 'بوكس اصنعها بنفسك', desc: 'صغير ومميز بطريقتك', price: 69, icon: 'box', order: 2, active: true },
+  { id: 'p_bites', name: 'بوكس 50 كوكيز بايتس', desc: 'للمناسبات والتجمعات', price: 55, icon: 'bites', order: 3, active: true, featured: true },
+  { id: 'p_c8', name: 'بوكس 8 كلاسيك كوكيز', desc: 'نكهة كلاسيكية لا تقاوم', price: 50, icon: 'cookie', order: 4, active: true, featured: true },
+  { id: 'p_c6', name: 'بوكس 6 كلاسيك كوكيز', desc: 'الكمية المثالية', price: 40, icon: 'cookie', order: 5, active: true }
+];
+const DEMO_SETTINGS = { storeOpen: true, pickupEnabled: true, deliveryEnabled: false, payCash: false, payTransfer: true, whatsapp: '+966 59 575 8115', dailyLimit: 5, daysAhead: 7, slots: [], offDays: [] };
+function goOffline(){
+  offline = true; products = DEMO_PRODUCTS; settings = DEMO_SETTINGS;
+  myDoc = { orders: load('baked.orders', {}) };   // الطلبات تنحفظ في المتصفح نفسه
+  rerender();
+}
 let products = [], settings = {}, coupons = {}, loadDocs = [], reviewsDocs = [];
 let cart = load('baked.cart', {});            // {productId: qty}
 let myDoc = null;                              // طلباتي من قاعدة البيانات
@@ -475,6 +489,7 @@ function dayList(){
 function bookedOn(key){ return loadDocs.reduce((a, x) => a + ((x.dates || {})[key] || 0), 0); }
 function renderCheckout(){
   const s = S(), t = totals();
+  $('#coupon').parentElement.classList.toggle('hide', offline);
   const methods = [];
   if (s.pickupEnabled) methods.push(['pickup', 'استلام']);
   if (s.deliveryEnabled) methods.push(['delivery', +s.deliveryFee ? 'توصيل (' + s.deliveryFee + ' ريال)' : 'توصيل (الرسوم نتفق عليها)']);
@@ -523,7 +538,7 @@ $('#coForm').addEventListener('submit', async e => {
   if ((s.slots || []).length && !co.slot) return err.textContent = 'اختاري الوقت';
   if (co.method === 'delivery' && !$('#coAddr').value.trim()) return err.textContent = 'اكتبي وصف العنوان';
   if (s.dailyLimit && bookedOn(co.day) >= s.dailyLimit) return err.textContent = 'هذا اليوم اكتمل، اختاري يوم ثاني';
-  if (!db || !uid) return err.textContent = 'لازم تسجيل الدخول عشان نستقبل طلبك';
+  if (!offline && (!db || !uid)) return err.textContent = 'لازم تسجيل الدخول عشان نستقبل طلبك';
   const btn = $('#coSubmit'); btn.disabled = true; btn.textContent = 'جاري الإرسال…';
   const id = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
   const num = co.day.slice(5).replace('-', '') + '-' + String(Math.floor(Math.random() * 900) + 100);
@@ -531,6 +546,11 @@ $('#coForm').addEventListener('submit', async e => {
     date: co.day, slot: co.slot || '', pay: co.pay, notes: $('#coNotes').value.trim(), coupon: co.coupon?.code || '',
     items: t.items.map(x => ({ id: x.p.id, name: x.p.name, price: x.p.price, qty: x.qty })),
     subtotal: t.subtotal, discount: t.discount, delivery: t.delivery, total: t.total, status: co.pay === 'transfer' ? 'await' : 'new', createdAt: Date.now() };
+  if (offline) {
+    const mine = load('baked.orders', {}); mine[id] = order; save('baked.orders', mine); myDoc = { orders: mine };
+    save('baked.me', { name, phone }); cart = {}; save('baked.cart', cart); co.coupon = null;
+    btn.disabled = false; btn.textContent = 'أكّد الطلب'; showDone(order); renderCart(); renderMenu(); return;
+  }
   try {
     // الطلب ينحفظ في ملف الزبون، والمديرة تشوف كل الملفات
     await db.doc('orders/' + uid).set({ uid, updatedAt: Date.now(), orders: Object.assign({}, myDoc?.orders || {}, { [id]: order }) });
@@ -573,7 +593,8 @@ function renderMine(){
     return `<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><h3>طلب ${esc(o.num)}</h3><span class="pill ${o.status === 'cancel' ? 'cancel' : ''}">${esc(stName(o.status))}</span></div>
       <p class="note">${esc(o.date)} ${esc(o.slot)} · ${o.items.map(i => esc(i.name) + ' × ' + i.qty).join('، ')} · ${sar(o.total)}</p>
       ${o.status === 'cancel' ? '' : `<div class="steps">${flow.map((f, i) => `<span class="${i <= idx ? 'done' : ''}">${stName(f)}</span>`).join('')}</div>`}
-      ${o.status === 'done' && !myRev[o.id] ? `<form class="revForm" data-o="${esc(o.id)}"><b>كيف كانت الكوكيز؟</b>
+      ${offline ? '<p class="note">تابعي حالة طلبك معنا بالواتساب</p>' : ''}
+      ${!offline && o.status === 'done' && !myRev[o.id] ? `<form class="revForm" data-o="${esc(o.id)}"><b>كيف كانت الكوكيز؟</b>
         <div class="stars" data-o="${esc(o.id)}">${[1,2,3,4,5].map(n => `<button type="button" data-star="${n}" aria-label="${n} نجوم" class="${(revPick[o.id] || 0) >= n ? 'on' : ''}">★</button>`).join('')}</div>
         <textarea placeholder="رأيك يهمنا"></textarea><button class="btn sm" style="margin-top:8px">أرسل التقييم</button></form>` : ''}
       ${myRev[o.id] ? '<p class="okmsg">شكرًا على تقييمك 🤎</p>' : ''}</div>`;
@@ -613,7 +634,12 @@ $('#spForm').addEventListener('submit', async e => {
   e.preventDefault();
   const name = $('#spName').value.trim(), phone = $('#spPhone').value.trim(), text = $('#spText').value.trim(), err = $('#spErr');
   if (!name || !phone || !text) return err.textContent = 'عبّي الاسم والجوال والتفاصيل';
-  if (!db || !uid) return err.textContent = 'لازم تسجيل الدخول';
+  if (offline || !db || !uid) {
+    const wa = (S().whatsapp || '').replace(/\D/g, '');
+    const msg = `طلب خاص من baked by Lolo\nالاسم: ${name}\nالجوال: ${phone}\nالمناسبة: ${$('#spOcc').value.trim()}\nالتاريخ: ${$('#spDate').selectedOptions[0]?.textContent || ''}\nالتفاصيل: ${text}`;
+    err.innerHTML = wa ? `<a class="btn pink" href="https://wa.me/${wa}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">أرسلي الطلب بالواتساب</a>` : '';
+    return;
+  }
   try {
     const cur = (await db.doc('specials/' + uid).get()).data()?.items || {};
     const id = 's' + Date.now().toString(36);
@@ -880,9 +906,10 @@ function rerender(){ renderMenu(); renderCart(); renderReviews(); if (location.h
 const docs = snap => snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
 renderMenu(); renderCart(); route();
 (async () => {
-  const timer = setTimeout(() => { if (!products.length) $('#menuGrid').innerHTML = '<p class="empty">المنيو ما وصل للحين، جربي بعد شوي</p>'; }, 10000);
-  try { db = await window.claude?.use('db'); user = await window.claude?.use('user'); } catch(e){}
-  if (!db) { clearTimeout(timer); $('#menuGrid').innerHTML = '<p class="empty">سجّلي دخولك عشان يظهر المنيو</p>'; return; }
+  const timer = setTimeout(() => { if (!products.length) goOffline(); }, 10000);
+  if (!window.claude?.use) { clearTimeout(timer); goOffline(); return; }   // برا Claude: نشتغل بالمنيو الأساسي على طول
+  try { db = await window.claude.use('db'); user = await window.claude.use('user'); } catch(e){}
+  if (!db) { clearTimeout(timer); goOffline(); return; }
   try { uid = await user?.id?.(); isAdmin = !!(await user?.canEdit?.()); } catch(e){}
   db.collection('products').onSnapshot(s => { clearTimeout(timer); products = docs(s); rerender(); }, () => {});
   db.doc('config/settings').onSnapshot(s => { settings = s.data() || {}; rerender(); }, () => {});
