@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>baked by Lolo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: دافئ ولطيف، زي ورقة منيو مرسومة باليد
+   IDEA: صينية خبز وقفاز فرن، كل منتج بطاقة على ورق وردي بإطار مقوّس زي المنيو
+   PICTURE: شعار baked by Lolo كبير في الواجهة، ورسومات خطية للمنتجات
+   COLOUR and TYPE: وردي ناعم + بني شوكولاتة + لون الكوكيز، Baloo Bhaijaan 2 للعناوين و Tajawal للنص
+   LAYOUT: هيدر ثابت، واجهة، منيو شبكي، سلة جانبية، ولوحة مديرة بتبويبات */
+:root{color-scheme:light;
+  /* هوية baked by Lolo: Lemon Sorbet, Bunny Tail, Seafair Green, Changeling, Dried Lilac */
+  --lemon:#fffabf;--bunny:#ffe7ff;--mint:#b2f9e7;--pink:#f4adcf;--lilac:#bfc4ff;
+  --bg:#fff6fd;--paper:#fffdfe;--ink:#4A2E3A;--soft:#7A5C6A;--rose:#B8467E;
+  --line:#efd3ee;--cookie:#F2CFA0;--ok:#1F7A5C;--warn:#A0522D}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:linear-gradient(160deg,var(--bunny) 0%,var(--bg) 30%,#fbfff0 60%,var(--bunny) 100%) fixed;color:var(--ink);font:16px/1.6 'Tajawal',Tahoma,sans-serif;overflow-x:clip}
+h1,h2,h3,.brand{font-family:'Baloo Bhaijaan 2','Tajawal',sans-serif;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,5vw,52px)}h2{font-size:clamp(28px,3.4vw,38px)}h3{font-size:20px}
+a{color:var(--rose)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(4vw,16px)}
+.band{padding:clamp(28px,4vw,56px) 0}
+/* الهيدر */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bunny) 88%,transparent);backdrop-filter:blur(8px);border-bottom:2px dashed var(--line)}
+.bar{display:flex;align-items:center;gap:14px;min-height:68px;flex-wrap:wrap}
+.brand{font-size:26px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand small{font-family:'Tajawal';font-size:14px;color:var(--soft)}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-inline-start:auto}
+nav a{padding:10px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:500;min-height:44px;display:inline-flex;align-items:center}
+nav a.on{background:var(--paper);box-shadow:inset 0 0 0 2px var(--line)}
+.cartbtn{border:0;background:var(--ink);color:var(--bg);border-radius:999px;padding:10px 18px;min-height:44px;font-weight:700;display:flex;gap:8px;align-items:center}
+.cartbtn b{background:var(--lemon);color:var(--ink);border-radius:999px;padding:0 8px;font-size:14px}
+/* أزرار عامة */
+.btn{border:2px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:10px 22px;min-height:44px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.pink{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.btn.sm{padding:6px 14px;min-height:36px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+/* البطاقة المقوّسة زي إطار المنيو */
+.card{background:var(--paper);border:2px solid var(--line);border-radius:28px;padding:20px;position:relative}
+.card.frame{box-shadow:0 0 0 6px var(--bg),0 0 0 8px var(--line)}
+/* الواجهة */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center}
+.hero .art{width:100%;max-width:500px;justify-self:center}
+.hero .art svg{width:100%;height:auto;display:block}
+.hero p.lead{font-size:19px;color:var(--soft);max-width:34ch}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chip{background:var(--lilac);border:0;color:var(--ink)!important;border-radius:999px;padding:4px 12px;font-size:14px;color:var(--soft)}
+.closed{background:var(--lemon);color:var(--ink);border:2px solid var(--pink);border-radius:16px;padding:10px 16px;margin-top:14px;font-weight:700}
+/* المنيو */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:22px}
+.prod{display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center}
+.prod svg{width:150px;height:130px;padding:10px;border-radius:50%;background:var(--tint,var(--bunny))}
+.prod:nth-child(5n+1){--tint:var(--mint)}.prod:nth-child(5n+2){--tint:var(--lemon)}.prod:nth-child(5n+3){--tint:var(--lilac)}.prod:nth-child(5n+4){--tint:var(--bunny)}.prod:nth-child(5n+5){--tint:#fde0ee}
+.prod .price{font-family:'Baloo Bhaijaan 2';font-size:30px;font-weight:700;white-space:nowrap}
+.prod .price small{font-size:16px;font-weight:500;color:var(--soft)}
+.prod p{margin:0;color:var(--soft)}
+.prod .tag{position:absolute;top:14px;inset-inline-start:14px;background:var(--lemon);color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700}
+.prod.out{opacity:.6}
+.qty{display:inline-flex;align-items:center;border:2px solid var(--line);border-radius:999px}
+.qty button{border:0;background:none;width:40px;height:40px;font-size:20px;font-weight:700}
+.qty span{min-width:26px;text-align:center;font-weight:700}
+.sample{font-size:13px;color:var(--soft);margin-top:10px}
+/* السلة الجانبية */
+.drawer{position:fixed;inset:0;z-index:40;display:none}
+.drawer.open{display:block}
+.drawer .shade{position:absolute;inset:0;background:rgba(40,20,15,.35)}
+.drawer .panel{position:absolute;top:0;bottom:0;inset-inline-start:0;width:min(420px,100%);background:var(--bg);padding:20px;overflow:auto;display:flex;flex-direction:column;gap:14px;border-inline-end:2px solid var(--line)}
+.line{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 0;border-bottom:1.5px dashed var(--line)}
+.sum{display:grid;gap:6px}
+.sum div{display:flex;justify-content:space-between}
+.sum .total{font-weight:700;font-size:20px;border-top:2px solid var(--line);padding-top:8px}
+/* النماذج */
+form .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+label{display:grid;gap:6px;font-weight:500}
+input,select,textarea{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:10px 12px;min-height:44px;font-size:16px;width:100%}
+textarea{min-height:90px;resize:vertical}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 16px;min-height:44px;font-weight:500}
+.opt.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.opt:disabled{opacity:.4;text-decoration:line-through}
+.note{font-size:14px;color:var(--soft)}
+.err{color:var(--rose);font-weight:700}
+.okmsg{color:var(--ok);font-weight:700}
+.two{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start}
+/* تتبع الطلب */
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.steps span{flex:1 1 90px;text-align:center;padding:8px 6px;border-radius:12px;background:var(--bg);border:1.5px solid var(--line);font-size:14px}
+.steps span.done{background:var(--mint);color:var(--ink);border-color:var(--mint);font-weight:700}
+.stars button{border:0;background:none;font-size:30px;color:var(--line);padding:0 2px;min-width:44px;min-height:44px}
+.stars button.on{color:var(--rose)}
+.reviews{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+/* لوحة المديرة */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin:18px 0}
+.tabs button{flex:none;border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 16px;min-height:44px;font-weight:500}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi .v{font-family:'Baloo Bhaijaan 2';font-size:clamp(28px,4vw,38px);font-weight:700;white-space:nowrap}
+.kpi .l{color:var(--soft);font-size:14px}
+.bars{display:grid;gap:4px;margin-top:10px}
+.brow{display:grid;grid-template-columns:56px minmax(0,1fr) 80px;gap:8px;align-items:center;font-size:13px}
+.brow i{display:block;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--lilac),var(--pink))}
+.brow .n{text-align:left;white-space:nowrap}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:right;padding:10px 8px;border-bottom:1.5px solid var(--line);vertical-align:top}
+th{font-size:14px;color:var(--soft);font-weight:500}
+td.num{text-align:left;white-space:nowrap}
+.scroll{overflow-x:auto}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;background:var(--bg);border:1.5px solid var(--line);white-space:nowrap}
+.pill.new{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.pill.done{color:var(--ok)}.pill.cancel{color:var(--rose)}
+.guide{background:var(--lemon);color:var(--ink);border:2px solid var(--pink);border-radius:22px;padding:16px 20px}
+.guide ol{margin:8px 0 0;padding-inline-start:20px}
+.empty{color:var(--soft);text-align:center;padding:24px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;z-index:60;display:none;max-width:90vw}
+.adminMode header,.adminMode footer{display:none}
+.abar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:10px;border-bottom:2px dashed var(--line)}
+/* تأثير الماوس: نجوم ولؤلؤ */
+.spark{position:fixed;pointer-events:none;z-index:99;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);animation:fly .9s ease-out forwards}
+.spark.star{background:var(--c);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+.spark.pearl{border-radius:50%;background:radial-gradient(circle at 32% 30%,#fff 0 18%,var(--c) 55%,color-mix(in srgb,var(--c) 70%,#7a5c6a) 100%);box-shadow:0 0 6px var(--c)}
+@keyframes fly{from{opacity:1;transform:translate(0,0) scale(1) rotate(0)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3) rotate(140deg)}}
+footer{border-top:2px dashed var(--line);margin-top:40px;padding:24px 0;color:var(--soft);font-size:14px;text-align:center}
+.hide{display:none!important}
+@media(max-width:600px){.bar{padding-block:8px;gap:6px}nav{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;margin:0}nav a{flex:none}.cartbtn{margin-inline-start:auto}}
+@media(max-width:760px){.hero,.two{grid-template-columns:1fr}.hero .art{max-width:340px;grid-row:1}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;color:var(--soft)}.stack td:empty{display:none}}
+@media (prefers-reduced-motion:no-preference){.prod{transition:transform .2s}.prod:hover{transform:translateY(-3px) rotate(-.5deg)}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="brand" href="#home" dir="ltr">baked <small>by Lolo.</small></a>
+  <nav id="nav">
+    <a href="#home" data-v="home">الرئيسية</a>
+    <a href="#menu" data-v="menu">المنيو</a>
+    <a href="#special" data-v="special">طلب خاص</a>
+    <a href="#track" data-v="track">طلباتي</a>
+  </nav>
+  <button class="cartbtn" id="cartBtn" aria-label="السلة">السلة <b id="cartCount">0</b></button>
+</div></header>
+
+<main class="wrap">
+  <!-- الرئيسية -->
+  <section id="v-home" class="band view">
+    <div class="hero">
+      <div>
+        <h1>كوكيز طازجة<br>مخبوزة بحب</h1>
+        <p class="lead">اختاري بوكسك، حددي وقت الاستلام، وخليه علينا. كل طلب ينخبز طازج بيومه.</p>
+        <div class="cta"><a class="btn" href="#menu">اطلب الحين</a><a class="btn ghost" href="#special">عندي طلب خاص</a></div>
+        <div class="chips" id="heroChips"></div>
+        <div id="closedNote" class="closed hide">المتجر مقفل للطلبات حاليًا، تقدرين تتصفحين المنيو</div>
+      </div>
+      <div class="art" role="img" aria-label="صينية كوكيز على شكل قطط بين قلوب ونجوم">
+<svg viewBox="0 0 500 460" fill="none" stroke="#4A2E3A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- الخلفية: دوائر الهوية -->
+  <circle cx="250" cy="235" r="205" fill="#ffe7ff" stroke="none"/>
+  <circle cx="148" cy="150" r="92" fill="#bfc4ff" stroke="none" opacity=".75"/>
+  <circle cx="372" cy="318" r="98" fill="#b2f9e7" stroke="none" opacity=".8"/>
+  <circle cx="370" cy="118" r="58" fill="#fffabf" stroke="none"/>
+  <!-- ظل الصينية -->
+  <ellipse cx="252" cy="372" rx="170" ry="22" fill="#f4adcf" stroke="none" opacity=".55"/>
+  <!-- الصينية -->
+  <g transform="rotate(-6 250 250)">
+    <rect x="92" y="150" width="316" height="206" rx="22" fill="#fffdfe"/>
+    <rect x="112" y="170" width="276" height="166" rx="12" fill="#fff8ef" stroke-width="3"/>
+    <!-- كوكيز القطط -->
+    <defs><g id="cat" stroke-width="3.5">
+      <path d="M-30 6c0-20 13-30 30-30s30 10 30 30-13 26-30 26-30-6-30-26z" fill="#F2CFA0"/>
+      <path d="M-24-12l-4-18 16 9M24-12l4-18-16 9" fill="#F2CFA0"/>
+      <circle cx="-10" cy="2" r="2.6" fill="#4A2E3A" stroke="none"/><circle cx="10" cy="2" r="2.6" fill="#4A2E3A" stroke="none"/>
+      <path d="M-4 10q4 4 8 0" stroke-width="2.5"/>
+      <circle cx="-18" cy="10" r="4" fill="#f4adcf" stroke="none"/><circle cx="18" cy="10" r="4" fill="#f4adcf" stroke="none"/>
+    </g></defs>
+    <use href="#cat" transform="translate(172 222)"/><use href="#cat" transform="translate(250 222)"/><use href="#cat" transform="translate(328 222)"/>
+    <use href="#cat" transform="translate(172 292)"/><use href="#cat" transform="translate(250 292)"/><use href="#cat" transform="translate(328 292)"/>
+  </g>
+  <!-- قفازات الفرن -->
+  <path d="M70 250c-18 4-26 30-14 62l14 40 52-18-10-44c-4-22-20-44-42-40z" fill="#bfc4ff"/>
+  <path d="M68 346l56-20 8 22-56 20z" fill="#fffdfe"/><path d="M84 344l5 14M98 339l5 14M112 334l5 14" stroke-width="3"/>
+  <path d="M430 230c18 4 26 30 14 62l-14 40-52-18 10-44c4-22 20-44 42-40z" fill="#b2f9e7"/>
+  <path d="M432 326l-56-20-8 22 56 20z" fill="#fffdfe"/><path d="M416 324l-5 14M402 319l-5 14M388 314l-5 14" stroke-width="3"/>
+  <path d="M96 300c-3-5-10 0-5 4l5 5 5-5c5-4-2-9-5-4z" fill="#f4adcf" stroke-width="2.5"/>
+  <path d="M404 280c-3-5-10 0-5 4l5 5 5-5c5-4-2-9-5-4z" fill="#f4adcf" stroke-width="2.5"/>
+  <!-- نجوم وقلوب -->
+  <path d="M84 98l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#fffabf" stroke-width="3.5"/>
+  <path d="M430 196l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#fffabf" stroke-width="3"/>
+  <path d="M250 60c-6-10-22 0-12 9l12 11 12-11c10-9-6-19-12-9z" fill="#f4adcf" stroke-width="3.5"/>
+  <circle cx="440" cy="70" r="8" stroke-width="3"/><circle cx="56" cy="200" r="6" stroke-width="3"/>
+  <path d="M190 420c-4-7-14 0-8 6l8 7 8-7c6-6-4-13-8-6z" fill="#f4adcf" stroke-width="3"/>
+</svg></div>
+    </div>
+  </section>
+  <section id="v-home2" class="band view" data-of="home">
+    <h2>الأكثر طلبًا</h2>
+    <div class="grid" id="topGrid"></div>
+    <div id="revWrap" class="hide"><h2 style="margin-top:40px">وش قالوا عنا</h2><div class="reviews" id="revList"></div></div>
+  </section>
+
+  <!-- المنيو -->
+  <section id="v-menu" class="band view">
+    <h2>المنيو</h2>
+    <p class="note">الأسعار بالريال السعودي. البوكسات تنخبز طازجة يوم الاستلام.</p>
+    <div class="grid" id="menuGrid"></div>
+  </section>
+
+  <!-- إتمام الطلب -->
+  <section id="v-checkout" class="band view">
+    <h2>إتمام الطلب</h2>
+    <div class="two" style="margin-top:18px">
+      <form id="coForm" class="card frame" novalidate>
+        <h3>بياناتك</h3>
+        <div class="row" style="margin-top:12px">
+          <label>الاسم<input id="coName" autocomplete="name" required></label>
+          <label>رقم الجوال<input id="coPhone" inputmode="tel" placeholder="05xxxxxxxx" autocomplete="tel" required></label>
+        </div>
+        <h3 style="margin-top:20px">الاستلام</h3>
+        <div class="opts" id="methodOpts" style="margin-top:10px"></div>
+        <div class="row hide" id="addrRow" style="margin-top:12px">
+          <label>الحي<select id="coArea"></select></label>
+          <label>وصف العنوان<input id="coAddr" placeholder="اسم الشارع، أقرب معلم"></label>
+        </div>
+        <h3 style="margin-top:20px">اليوم</h3>
+        <div class="opts" id="dayOpts" style="margin-top:10px"></div>
+        <h3 style="margin-top:20px">الوقت</h3>
+        <div class="opts" id="slotOpts" style="margin-top:10px"></div>
+        <h3 style="margin-top:20px">الدفع</h3>
+        <div class="opts" id="payOpts" style="margin-top:10px"></div>
+        <p class="note hide" id="bankNote"></p>
+        <label style="margin-top:16px">ملاحظات (اختياري)<textarea id="coNotes" placeholder="كتابة على البوكس، حساسية من مكوّن، أي شي"></textarea></label>
+        <p class="err" id="coErr" role="alert"></p>
+        <button class="btn" id="coSubmit" type="submit" style="width:100%;margin-top:8px">أكّد الطلب</button>
+      </form>
+      <div class="card">
+        <h3>ملخص الطلب</h3>
+        <div id="coLines"></div>
+        <div class="row" style="margin-top:12px;grid-template-columns:minmax(0,1fr) auto">
+          <input id="coupon" placeholder="كود الخصم" aria-label="كود الخصم"><button class="btn ghost sm" id="applyCoupon" type="button">طبّق</button>
+        </div>
+        <p class="note" id="couponMsg"></p>
+        <div class="sum" id="coSum"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- تأكيد الطلب -->
+  <section id="v-done" class="band view">
+    <div class="card frame" style="max-width:640px;margin:0 auto;text-align:center">
+      <h2>وصلنا طلبك 🤎</h2>
+      <p>رقم طلبك</p>
+      <p class="brand" style="justify-content:center;font-size:44px" id="doneNum" dir="ltr"></p>
+      <p id="doneInfo" class="note"></p>
+      <div id="doneBank" class="guide hide" style="text-align:right;margin-top:10px"><b>طلبك يتأكد بعد التحويل</b><p id="doneBankText" style="margin:6px 0 0;white-space:pre-line"></p><p style="margin:6px 0 0">بعد ما تحوّلين، أرسلي الإيصال بالواتساب مع رقم الطلب.</p></div>
+      <div class="opts" style="justify-content:center;margin-top:14px">
+        <a class="btn pink" id="waBtn" href="#" target="_blank" rel="noopener">أكّد الطلب عبر واتساب</a>
+        <a class="btn ghost" href="#track">تتبع طلبك</a>
+      </div>
+      <p class="note" id="waText"></p>
+    </div>
+  </section>
+
+  <!-- طلباتي وتتبعها -->
+  <section id="v-track" class="band view">
+    <h2>طلباتي</h2>
+    <p class="note">حالة كل طلب تتحدث هنا أول بأول.</p>
+    <div id="myOrders" style="display:grid;gap:16px;margin-top:16px"></div>
+  </section>
+
+  <!-- طلب خاص -->
+  <section id="v-special" class="band view">
+    <h2>طلب خاص</h2>
+    <p class="note">مناسبة، كمية كبيرة، أو تصميم معين؟ اكتبي التفاصيل وبنرد عليك.</p>
+    <form id="spForm" class="card frame" style="max-width:720px;margin-top:16px" novalidate>
+      <div class="row">
+        <label>الاسم<input id="spName" required></label>
+        <label>رقم الجوال<input id="spPhone" inputmode="tel" required></label>
+        <label>المناسبة<input id="spOcc" placeholder="تخرج، مولود، اجتماع"></label>
+        <label>التاريخ المطلوب<select id="spDate"></select></label>
+      </div>
+      <label style="margin-top:14px">التفاصيل<textarea id="spText" placeholder="العدد التقريبي، الألوان، الكتابة، أي فكرة" required></textarea></label>
+      <p class="err" id="spErr" role="alert"></p>
+      <button class="btn" type="submit" style="margin-top:6px">أرسل الطلب</button>
+    </form>
+  </section>
+
+  <!-- لوحة المديرة -->
+  <section id="v-lolo-admin" class="band view">
+    <div class="abar"><a class="brand" href="#home" dir="ltr">baked <small>dashboard</small></a>
+      <div class="opts"><a class="btn ghost sm" href="#home">عرض المتجر</a><button class="btn ghost sm hide" id="logoutBtn" type="button">تسجيل خروج</button></div></div>
+    <div id="loginBox" class="hide"></div>
+    <div id="adminArea">
+    <h2>لوحة المديرة</h2>
+    <div class="tabs" id="aTabs"></div>
+    <div id="aBody"></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span dir="ltr">baked by Lolo.</span><span id="footWa"></span></div></footer>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="shade" id="shade"></div>
+  <aside class="panel" role="dialog" aria-label="السلة">
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2>سلتك</h2><button class="btn ghost sm" id="closeCart">إغلاق</button></div>
+    <div id="cartLines"></div>
+    <div class="sum" id="cartSum"></div>
+    <a class="btn" id="goCheckout" href="#checkout">كمّلي الطلب</a>
+    <a class="btn ghost" href="#menu" id="moreBtn">أضيفي أكثر</a>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+// ====== أدوات صغيرة ======
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sar = n => (Math.round((+n || 0) * 100) / 100).toLocaleString('ar-SA') + ' ريال';
+const pad = n => String(n).padStart(2, '0');
+const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const today = () => dkey(new Date());
+const DAYN = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const STATUS = [['await','بانتظار التحويل'],['new','جديد'],['confirmed','مؤكد'],['baking','قيد التحضير'],['ready','جاهز'],['done','تم التسليم'],['cancel','ملغي']];
+const stName = k => (STATUS.find(s => s[0] === k) || ['', k])[1];
+function toast(t){ const el = $('#toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => el.style.display = 'none', 2600); }
+function load(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d } catch(e){ return d } }
+function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)) } catch(e){} }
+
+// ====== رسومات المنتجات (خطية زي المنيو) ======
+const ICONS = {
+  tower: '<svg viewBox="0 0 120 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M60 8c-4-6-12 0-6 5l6 6 6-6c6-5-2-11-6-5z" fill="var(--pink)"/><path d="M60 19v8"/><rect x="42" y="27" width="36" height="16" rx="5" fill="var(--paper)"/><rect x="32" y="43" width="56" height="20" rx="6" fill="var(--paper)"/><rect x="22" y="63" width="76" height="24" rx="7" fill="var(--paper)"/><path d="M14 92h92"/><path d="M36 52h48M28 74h64" stroke-dasharray="4 6" stroke="var(--rose)"/></svg>',
+  box: '<svg viewBox="0 0 120 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M22 40l38-14 38 14v46l-38 14-38-14z" fill="var(--paper)"/><path d="M22 40l38 14 38-14M60 54v46"/><path d="M22 40l-8-14 38-12 8 12M98 40l8-14-38-12-8 12" fill="var(--bg)"/><path d="M80 70c-3-5-10 0-5 4l5 5 5-5c5-4-2-9-5-4z" fill="var(--pink)"/></svg>',
+  bites: '<svg viewBox="0 0 120 110"><g stroke="currentColor" stroke-width="3" fill="var(--cookie)"><circle cx="38" cy="62" r="18"/><circle cx="74" cy="48" r="16"/><circle cx="82" cy="80" r="14"/><circle cx="56" cy="88" r="10"/></g><g fill="currentColor"><circle cx="33" cy="58" r="2.5"/><circle cx="42" cy="68" r="2.5"/><circle cx="70" cy="44" r="2.5"/><circle cx="78" cy="52" r="2.5"/><circle cx="82" cy="78" r="2.5"/></g></svg>',
+  smores: '<svg viewBox="0 0 120 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M96 50a36 36 0 1 1-26-30 9 9 0 0 0 11 11 9 9 0 0 0 15 19z" fill="var(--cookie)"/><rect x="38" y="40" width="34" height="26" rx="10" fill="var(--paper)"/><path d="M42 74c6 4 20 4 26 0" stroke="var(--rose)"/><g fill="currentColor" stroke="none"><circle cx="34" cy="74" r="3.5"/><circle cx="80" cy="70" r="3.5"/><circle cx="56" cy="86" r="3.5"/></g><path d="M100 18l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="var(--pink)" stroke-width="2"/></svg>',
+  cookie: '<svg viewBox="0 0 120 110"><path d="M96 46a38 38 0 1 1-28-30 10 10 0 0 0 12 12 10 10 0 0 0 16 18z" fill="var(--cookie)" stroke="currentColor" stroke-width="3"/><g fill="currentColor"><circle cx="44" cy="44" r="4"/><circle cx="62" cy="62" r="4"/><circle cx="44" cy="74" r="4"/><circle cx="76" cy="80" r="4"/><circle cx="58" cy="40" r="3"/></g></svg>'
+};
+
+// ====== الحالة ======
+let db = null, user = null, uid = null, isAdmin = false;
+let products = [], settings = {}, coupons = {}, loadDocs = [], reviewsDocs = [];
+let cart = load('baked.cart', {});            // {productId: qty}
+let myDoc = null;                              // طلباتي من قاعدة البيانات
+let co = { method: 'pickup', day: null, slot: null, pay: 'cash', coupon: null };
+let adminData = { orders: [], carts: [], visits: [], specials: [], costs: {} };
+let aTab = 'overview';
+
+const S = () => Object.assign({ storeOpen: true, dailyLimit: 5, pickupEnabled: true, deliveryEnabled: false, deliveryFee: 0, areas: [], slots: [], offDays: [5], daysAhead: 7, payCash: false, payTransfer: true, bankInfo: '', whatsapp: '', pickupNote: '' }, settings);
+const activeProducts = () => products.filter(p => p.active !== false).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+const prodById = id => products.find(p => p.id === id);
+
+// ====== التنقل بالهاش ======
+const VIEWS = ['home','menu','checkout','done','track','special','lolo-admin'];
+function route(){
+  let v = location.hash.slice(1) || 'home';
+  if (!VIEWS.includes(v)) v = 'home';
+  if (v === 'lolo-admin' && !isAdmin) v = 'home';
+  document.body.classList.toggle('adminMode', v === 'lolo-admin');
+  if (v === 'checkout' && !cartCount()) v = 'menu';
+  document.querySelectorAll('.view').forEach(s => s.classList.toggle('hide', s.id !== 'v-' + v && s.dataset.of !== v));
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === v));
+  closeCart();
+  if (v === 'checkout') { renderCheckout(); track('co'); }
+  if (v === 'lolo-admin') renderAdmin();
+  if (v === 'track') renderMine();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+
+// ====== المنيو ======
+function prodCard(p){
+  const q = cart[p.id] || 0, out = p.soldOut;
+  return `<article class="card frame prod ${out ? 'out' : ''}">
+    ${out ? '<span class="tag">خلصت اليوم</span>' : (p.badge ? `<span class="tag">${esc(p.badge)}</span>` : '')}
+    ${ICONS[p.icon] || ICONS.cookie}
+    <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+    <div class="price">${esc(p.price)} <small>ريال</small></div>
+    ${out ? '' : q ? `<div class="qty"><button data-dec="${esc(p.id)}" aria-label="إنقاص">−</button><span>${q}</span><button data-inc="${esc(p.id)}" aria-label="زيادة">+</button></div>`
+      : `<button class="btn" data-inc="${esc(p.id)}">أضيفي للسلة</button>`}
+  </article>`;
+}
+function renderMenu(){
+  const list = activeProducts();
+  $('#menuGrid').innerHTML = list.length ? list.map(prodCard).join('') : '<p class="empty">المنيو يتحمّل…</p>';
+  const top = list.filter(p => p.featured).slice(0, 3);
+  $('#topGrid').innerHTML = (top.length ? top : list.slice(0, 3)).map(prodCard).join('');
+  const s = S();
+  $('#closedNote').classList.toggle('hide', s.storeOpen !== false);
+  const chips = [];
+  if (s.pickupEnabled) chips.push('استلام من البيت');
+  if (s.deliveryEnabled) chips.push('توصيل');
+  if (s.dailyLimit) chips.push(s.dailyLimit + ' طلبات فقط باليوم');
+  chips.push('طلبات خاصة');
+  $('#heroChips').innerHTML = chips.map(c => `<span class="chip">${esc(c)}</span>`).join('');
+  $('#footWa').innerHTML = s.whatsapp ? ' · واتساب: <bdi dir="ltr">' + esc(s.whatsapp) + '</bdi>' : '';
+}
+document.addEventListener('click', e => {
+  const inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]');
+  if (inc) { const id = inc.dataset.inc; cart[id] = (cart[id] || 0) + 1; cartChanged(); track('add', id); if (cart[id] === 1) toast('انضاف للسلة'); }
+  if (dec) { const id = dec.dataset.dec; cart[id] = (cart[id] || 0) - 1; if (cart[id] <= 0) delete cart[id]; cartChanged(); }
+});
+
+// ====== السلة ======
+const cartCount = () => Object.values(cart).reduce((a, b) => a + b, 0);
+function cartItems(){ return Object.entries(cart).map(([id, qty]) => ({ p: prodById(id), qty })).filter(x => x.p && !x.p.soldOut && x.p.active !== false); }
+function totals(){
+  const s = S(), items = cartItems();
+  const subtotal = items.reduce((a, x) => a + x.p.price * x.qty, 0);
+  let discount = 0;
+  if (co.coupon) discount = co.coupon.type === 'percent' ? Math.round(subtotal * co.coupon.value) / 100 : Math.min(subtotal, +co.coupon.value || 0);
+  const delivery = co.method === 'delivery' ? (+s.deliveryFee || 0) : 0;
+  return { items, subtotal, discount, delivery, total: Math.max(0, subtotal - discount) + delivery };
+}
+function sumHtml(t){
+  return `<div><span>المجموع</span><span>${sar(t.subtotal)}</span></div>
+    ${t.discount ? `<div><span>الخصم</span><span>− ${sar(t.discount)}</span></div>` : ''}
+    ${co.method === 'delivery' ? `<div><span>التوصيل</span><span>${sar(t.delivery)}</span></div>` : ''}
+    <div class="total"><span>الإجمالي</span><span>${sar(t.total)}</span></div>`;
+}
+function renderCart(){
+  $('#cartCount').textContent = cartCount();
+  const t = totals();
+  $('#cartLines').innerHTML = t.items.length ? t.items.map(x => `<div class="line"><div><b>${esc(x.p.name)}</b><div class="note">${esc(x.p.price)} ريال</div></div>
+    <div class="qty"><button data-dec="${esc(x.p.id)}" aria-label="إنقاص">−</button><span>${x.qty}</span><button data-inc="${esc(x.p.id)}" aria-label="زيادة">+</button></div></div>`).join('')
+    : '<p class="empty">سلتك فاضية، المنيو يناديك 🍪</p>';
+  $('#cartSum').innerHTML = t.items.length ? sumHtml(t) : '';
+  $('#goCheckout').classList.toggle('hide', !t.items.length || S().storeOpen === false);
+}
+let cartTimer;
+function cartChanged(){
+  save('baked.cart', cart); renderCart(); renderMenu();
+  if (location.hash === '#checkout') renderCheckout();
+  clearTimeout(cartTimer); cartTimer = setTimeout(syncCart, 1500);   // نحفظ السلة بعد ما توقف عن الضغط
+}
+async function syncCart(){
+  if (!db || !uid) return;
+  try { await db.doc('carts/' + uid).set({ items: cart, updatedAt: Date.now(), ordered: false }); } catch(e){}
+}
+function openCart(){ renderCart(); $('#drawer').classList.add('open'); $('#drawer').setAttribute('aria-hidden', 'false'); }
+function closeCart(){ $('#drawer').classList.remove('open'); $('#drawer').setAttribute('aria-hidden', 'true'); }
+$('#cartBtn').onclick = openCart; $('#closeCart').onclick = closeCart; $('#shade').onclick = closeCart;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+// ====== تتبع الزيارات (كل زائر يكتب في ملفه بس) ======
+let visit = null, visitTimer;
+async function track(kind, pid){
+  if (!db || !uid) return;
+  if (!visit) { try { const s = await db.doc('visits/' + uid).get(); visit = s.exists ? structuredClone(s.data()) : { days: {} }; } catch(e){ return; } }
+  const d = visit.days[today()] ||= { v: 0, views: {}, adds: {}, co: 0 };
+  if (kind === 'visit') d.v++;
+  if (kind === 'add') d.adds[pid] = (d.adds[pid] || 0) + 1;
+  if (kind === 'co') d.co++;
+  visit.last = Date.now(); visit.first ||= Date.now();
+  clearTimeout(visitTimer); visitTimer = setTimeout(() => db.doc('visits/' + uid).set(visit).catch(() => {}), 1200);
+}
+
+// ====== إتمام الطلب ======
+function dayList(){
+  const s = S(), out = [], now = new Date();
+  for (let i = 1; out.length < (s.daysAhead || 7) && i < 30; i++) {
+    const d = new Date(now); d.setDate(now.getDate() + i);
+    if ((s.offDays || []).includes(d.getDay())) continue;
+    out.push(d);
+  }
+  return out;
+}
+function bookedOn(key){ return loadDocs.reduce((a, x) => a + ((x.dates || {})[key] || 0), 0); }
+function renderCheckout(){
+  const s = S(), t = totals();
+  const methods = [];
+  if (s.pickupEnabled) methods.push(['pickup', 'استلام']);
+  if (s.deliveryEnabled) methods.push(['delivery', +s.deliveryFee ? 'توصيل (' + s.deliveryFee + ' ريال)' : 'توصيل (الرسوم نتفق عليها)']);
+  if (!methods.find(m => m[0] === co.method)) co.method = methods[0]?.[0] || 'pickup';
+  $('#methodOpts').innerHTML = methods.map(m => `<button type="button" class="opt ${co.method === m[0] ? 'on' : ''}" data-method="${m[0]}">${esc(m[1])}</button>`).join('');
+  $('#addrRow').classList.toggle('hide', co.method !== 'delivery');
+  $('#coArea').innerHTML = (s.areas || []).map(a => `<option>${esc(a)}</option>`).join('');
+  $('#coArea').parentElement.classList.toggle('hide', !(s.areas || []).length);
+  const days = dayList();
+  $('#dayOpts').innerHTML = days.map(d => { const k = dkey(d), full = s.dailyLimit && bookedOn(k) >= s.dailyLimit;
+    if (full && co.day === k) co.day = null;
+    return `<button type="button" class="opt ${co.day === k ? 'on' : ''}" data-day="${k}" ${full ? 'disabled' : ''}>${DAYN[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${full ? ' · مكتمل' : ''}</button>`; }).join('');
+  $('#slotOpts').innerHTML = (s.slots || []).length ? s.slots.map(x => `<button type="button" class="opt ${co.slot === x ? 'on' : ''}" data-slot="${esc(x)}">${esc(x)}</button>`).join('') : '<span class="note">بنتفق على الوقت بالواتساب</span>';
+  const pays = []; if (s.payCash) pays.push(['cash', 'كاش عند الاستلام']); if (s.payTransfer) pays.push(['transfer', 'تحويل بنكي']);
+  if (!pays.find(p => p[0] === co.pay)) co.pay = pays[0]?.[0] || 'cash';
+  $('#payOpts').innerHTML = pays.map(p => `<button type="button" class="opt ${co.pay === p[0] ? 'on' : ''}" data-pay="${p[0]}">${p[1]}</button>`).join('');
+  $('#bankNote').classList.toggle('hide', co.pay !== 'transfer' || !s.bankInfo); $('#bankNote').textContent = s.bankInfo;
+  $('#coLines').innerHTML = t.items.map(x => `<div class="line"><span>${esc(x.p.name)} × ${x.qty}</span><span class="num">${sar(x.p.price * x.qty)}</span></div>`).join('');
+  $('#coSum').innerHTML = sumHtml(t);
+  const me = load('baked.me', {}); if (!$('#coName').value) $('#coName').value = me.name || ''; if (!$('#coPhone').value) $('#coPhone').value = me.phone || '';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-method],[data-day],[data-slot],[data-pay]'); if (!b || b.disabled) return;
+  if (b.dataset.method) co.method = b.dataset.method;
+  if (b.dataset.day) co.day = b.dataset.day;
+  if (b.dataset.slot) co.slot = b.dataset.slot;
+  if (b.dataset.pay) co.pay = b.dataset.pay;
+  renderCheckout(); renderCart();
+});
+$('#applyCoupon').onclick = () => {
+  const code = $('#coupon').value.trim().toUpperCase(), c = coupons[code];
+  const ok = c && c.active !== false && (!c.expires || c.expires >= today());
+  co.coupon = ok ? { code, type: c.type, value: +c.value } : null;
+  $('#couponMsg').textContent = ok ? 'تم تطبيق الكود ✓' : 'الكود غير صحيح أو منتهي';
+  renderCheckout();
+};
+$('#coForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const s = S(), t = totals(), err = $('#coErr');
+  const name = $('#coName').value.trim(), phone = $('#coPhone').value.replace(/\s/g, '');
+  err.textContent = '';
+  if (!t.items.length) return err.textContent = 'السلة فاضية';
+  if (!name) return err.textContent = 'اكتبي الاسم';
+  if (!/^05\d{8}$/.test(phone)) return err.textContent = 'رقم الجوال لازم يبدأ بـ 05 ويكون 10 أرقام';
+  if (!co.day) return err.textContent = 'اختاري يوم الاستلام';
+  if ((s.slots || []).length && !co.slot) return err.textContent = 'اختاري الوقت';
+  if (co.method === 'delivery' && !$('#coAddr').value.trim()) return err.textContent = 'اكتبي وصف العنوان';
+  if (s.dailyLimit && bookedOn(co.day) >= s.dailyLimit) return err.textContent = 'هذا اليوم اكتمل، اختاري يوم ثاني';
+  if (!db || !uid) return err.textContent = 'لازم تسجيل الدخول عشان نستقبل طلبك';
+  const btn = $('#coSubmit'); btn.disabled = true; btn.textContent = 'جاري الإرسال…';
+  const id = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  const num = co.day.slice(5).replace('-', '') + '-' + String(Math.floor(Math.random() * 900) + 100);
+  const order = { id, num, name, phone, method: co.method, area: co.method === 'delivery' ? ($('#coArea').value || '') : '', address: co.method === 'delivery' ? $('#coAddr').value.trim() : '',
+    date: co.day, slot: co.slot || '', pay: co.pay, notes: $('#coNotes').value.trim(), coupon: co.coupon?.code || '',
+    items: t.items.map(x => ({ id: x.p.id, name: x.p.name, price: x.p.price, qty: x.qty })),
+    subtotal: t.subtotal, discount: t.discount, delivery: t.delivery, total: t.total, status: co.pay === 'transfer' ? 'await' : 'new', createdAt: Date.now() };
+  try {
+    // الطلب ينحفظ في ملف الزبون، والمديرة تشوف كل الملفات
+    await db.doc('orders/' + uid).set({ uid, updatedAt: Date.now(), orders: Object.assign({}, myDoc?.orders || {}, { [id]: order }) });
+    const mine = loadDocs.find(x => x.id === uid)?.dates || {};
+    await db.doc('load/' + uid).set({ dates: Object.assign({}, mine, { [co.day]: (mine[co.day] || 0) + 1 }) });
+    await db.doc('carts/' + uid).set({ items: {}, updatedAt: Date.now(), ordered: true });
+  } catch(x) { btn.disabled = false; btn.textContent = 'أكّد الطلب'; return err.textContent = 'ما قدرنا نرسل الطلب، حسابك لازم يكون له صلاحية (Contributor) على الموقع'; }
+  save('baked.me', { name, phone });
+  cart = {}; save('baked.cart', cart); co.coupon = null; $('#coupon').value = ''; $('#couponMsg').textContent = '';
+  btn.disabled = false; btn.textContent = 'أكّد الطلب';
+  showDone(order); renderCart(); renderMenu();
+});
+function waMsg(o){
+  return `هلا، طلب جديد من baked by Lolo\nرقم الطلب: ${o.num}\n` + o.items.map(i => `- ${i.name} × ${i.qty}`).join('\n') +
+    `\nالإجمالي: ${o.total} ريال\n${o.method === 'delivery' ? 'توصيل' + (o.area ? ': ' + o.area : '') : 'استلام'} · ${o.date} ${o.slot}\nالاسم: ${o.name}` + (o.pay === 'transfer' ? '\nمرفق إيصال التحويل' : '');
+}
+function showDone(o){
+  const s = S();
+  $('#doneNum').textContent = o.num;
+  $('#doneInfo').textContent = `${o.method === 'delivery' ? 'توصيل' : 'استلام'} يوم ${o.date} ${o.slot} · الإجمالي ${o.total} ريال · ${o.pay === 'transfer' ? 'تحويل بنكي' : 'كاش'}`;
+  $('#doneBank').classList.toggle('hide', o.pay !== 'transfer');
+  $('#doneBankText').textContent = s.bankInfo || 'بيانات الحساب توصلك بالواتساب';
+  const wa = (s.whatsapp || '').replace(/\D/g, '').replace(/^0/, '966');
+  $('#waBtn').classList.toggle('hide', !wa);
+  if (wa) $('#waBtn').href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(waMsg(o));
+  $('#waText').innerHTML = wa ? 'أو راسلينا على <bdi dir="ltr">' + esc(s.whatsapp) + '</bdi>' : '';
+  location.hash = 'done';
+}
+
+// ====== طلباتي + التقييم ======
+let revPick = {};
+function renderMine(){
+  const box = $('#myOrders'), list = Object.values(myDoc?.orders || {}).sort((a, b) => b.createdAt - a.createdAt);
+  if (!list.length) { box.innerHTML = '<p class="empty">ما عندك طلبات للحين. <a href="#menu">ابدئي من المنيو</a></p>'; return; }
+  const myRev = reviewsDocs.find(r => r.id === uid)?.items || {};
+  const flow = ['await','confirmed','baking','ready','done'];
+  const fl = o => o.status === 'new' ? 'await' : o.status;
+  box.innerHTML = list.map(o => {
+    const idx = flow.indexOf(fl(o));
+    return `<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><h3>طلب ${esc(o.num)}</h3><span class="pill ${o.status === 'cancel' ? 'cancel' : ''}">${esc(stName(o.status))}</span></div>
+      <p class="note">${esc(o.date)} ${esc(o.slot)} · ${o.items.map(i => esc(i.name) + ' × ' + i.qty).join('، ')} · ${sar(o.total)}</p>
+      ${o.status === 'cancel' ? '' : `<div class="steps">${flow.map((f, i) => `<span class="${i <= idx ? 'done' : ''}">${stName(f)}</span>`).join('')}</div>`}
+      ${o.status === 'done' && !myRev[o.id] ? `<form class="revForm" data-o="${esc(o.id)}"><b>كيف كانت الكوكيز؟</b>
+        <div class="stars" data-o="${esc(o.id)}">${[1,2,3,4,5].map(n => `<button type="button" data-star="${n}" aria-label="${n} نجوم" class="${(revPick[o.id] || 0) >= n ? 'on' : ''}">★</button>`).join('')}</div>
+        <textarea placeholder="رأيك يهمنا"></textarea><button class="btn sm" style="margin-top:8px">أرسل التقييم</button></form>` : ''}
+      ${myRev[o.id] ? '<p class="okmsg">شكرًا على تقييمك 🤎</p>' : ''}</div>`;
+  }).join('');
+}
+document.addEventListener('click', e => {
+  const st = e.target.closest('[data-star]'); if (!st) return;
+  const o = st.parentElement.dataset.o; revPick[o] = +st.dataset.star;
+  st.parentElement.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.star <= revPick[o]));
+});
+document.addEventListener('submit', async e => {
+  const f = e.target.closest('.revForm'); if (!f) return; e.preventDefault();
+  const oid = f.dataset.o, stars = revPick[oid];
+  if (!stars) return toast('اختاري عدد النجوم');
+  const prev = reviewsDocs.find(r => r.id === uid)?.items || {};
+  const o = myDoc.orders[oid];
+  try { await db.doc('reviews/' + uid).set({ items: Object.assign({}, prev, { [oid]: { stars, text: f.querySelector('textarea').value.trim().slice(0, 400), name: o.name.split(' ')[0], approved: false, at: Date.now() } }) }); toast('وصل تقييمك، بينعرض بعد المراجعة'); }
+  catch(x) { toast('ما قدرنا نحفظ التقييم'); }
+});
+function renderReviews(){
+  const all = reviewsDocs.flatMap(r => Object.values(r.items || {})).filter(x => x.approved).sort((a, b) => b.at - a.at).slice(0, 6);
+  $('#revWrap').classList.toggle('hide', !all.length);
+  $('#revList').innerHTML = all.map(r => `<div class="card"><div style="color:var(--rose);font-size:20px">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div><p>${esc(r.text)}</p><p class="note">${esc(r.name)}</p></div>`).join('');
+}
+
+// ====== الطلب الخاص ======
+// قائمة تواريخ بالعربي بدل حقل التاريخ الافتراضي اللي يطلع ملخبط مع الاتجاه من اليمين
+const MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+(() => {
+  const opts = ['<option value="">بدون تاريخ محدد</option>'];
+  for (let i = 1; i <= 90; i++) { const d = new Date(); d.setDate(d.getDate() + i);
+    opts.push(`<option value="${dkey(d)}">${DAYN[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}</option>`); }
+  $('#spDate').innerHTML = opts.join('');
+})();
+const niceDate = k => { if (!k) return '—'; const [y, m, d] = k.split('-').map(Number); const x = new Date(y, m - 1, d); return `${DAYN[x.getDay()]} ${d} ${MONTHS[m - 1]} ${y}`; };
+$('#spForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('#spName').value.trim(), phone = $('#spPhone').value.trim(), text = $('#spText').value.trim(), err = $('#spErr');
+  if (!name || !phone || !text) return err.textContent = 'عبّي الاسم والجوال والتفاصيل';
+  if (!db || !uid) return err.textContent = 'لازم تسجيل الدخول';
+  try {
+    const cur = (await db.doc('specials/' + uid).get()).data()?.items || {};
+    const id = 's' + Date.now().toString(36);
+    await db.doc('specials/' + uid).set({ items: Object.assign({}, cur, { [id]: { name, phone, occ: $('#spOcc').value.trim(), date: $('#spDate').value, text, status: 'new', at: Date.now() } }) });
+    e.target.reset(); err.textContent = ''; toast('وصل طلبك الخاص، بنتواصل معك قريب');
+  } catch(x) { err.textContent = 'ما قدرنا نرسل الطلب'; }
+});
+
+// ====== لوحة المديرة ======
+const ATABS = [['overview','الأرباح'],['orders','الطلبات'],['carts','السلات المتروكة'],['visitors','الزوار'],['menu','المنيو'],['coupons','الأكواد'],['reviews','التقييمات'],['specials','الطلبات الخاصة'],['settings','الإعدادات']];
+const allOrders = () => adminData.orders.flatMap(d => Object.values(d.orders || {}).map(o => Object.assign({ _uid: d.id }, o))).sort((a, b) => b.createdAt - a.createdAt);
+let names = {};
+async function resolveNames(ids){
+  if (!user?.profiles) return; const need = ids.filter(i => !(i in names)); if (!need.length) return;
+  try { const ps = await user.profiles(need); for (const i of need) names[i] = ps?.[i]?.name || ''; if (aTab === 'carts' || aTab === 'visitors') renderAdmin(); } catch(e){}
+}
+let month = today().slice(0, 7);
+// ====== دخول لوحة التحكم ======
+// الحماية الأساسية من صلاحيات قاعدة البيانات (بيانات الطلبات ما يقراها إلا حسابك)
+// وهذا القفل طبقة ثانية لو أحد فتح جهازك
+let auth = undefined, unlocked = false;
+try { unlocked = sessionStorage.getItem('baked.unlock') === '1'; } catch(e){}
+async function sha(txt){ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+function renderLogin(){
+  const first = auth === null;
+  $('#loginBox').innerHTML = `<form id="loginForm" class="card frame" style="max-width:420px;margin:40px auto">
+    <h2>${first ? 'أنشئي دخولك' : 'تسجيل الدخول'}</h2><p class="note">${first ? 'أول مرة: اختاري اسم مستخدم وكلمة مرور للوحة التحكم.' : 'لوحة التحكم خاصة بصاحبة المتجر.'}</p>
+    <label style="margin-top:12px">اسم المستخدم<input name="u" autocomplete="username" required></label>
+    <label style="margin-top:12px">كلمة المرور<input name="p" type="password" autocomplete="${first ? 'new-password' : 'current-password'}" required minlength="6"></label>
+    ${first ? '<label style="margin-top:12px">أعيدي كلمة المرور<input name="p2" type="password" autocomplete="new-password" required></label>' : ''}
+    <p class="err" id="loginErr" role="alert"></p><button class="btn" style="width:100%">${first ? 'احفظ وادخلي' : 'دخول'}</button></form>`;
+}
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'loginForm') return; e.preventDefault();
+  const f = e.target, u = f.u.value.trim().toLowerCase(), pw = f.p.value, er = $('#loginErr');
+  if (pw.length < 6) return er.textContent = 'كلمة المرور 6 أحرف على الأقل';
+  const h = await sha(u + ':' + pw);
+  if (auth === null) {
+    if (pw !== f.p2.value) return er.textContent = 'كلمتين المرور مو متطابقة';
+    try { await db.doc('private/auth').set({ user: u, hash: h }); } catch(x) { return er.textContent = 'ما انحفظ'; }
+  } else if (!auth || auth.user !== u || auth.hash !== h) return er.textContent = 'اسم المستخدم أو كلمة المرور غلط';
+  unlocked = true; try { sessionStorage.setItem('baked.unlock', '1'); } catch(x){}
+  renderAdmin();
+});
+$('#logoutBtn').onclick = () => { unlocked = false; try { sessionStorage.removeItem('baked.unlock'); } catch(x){} location.hash = 'home'; };
+function renderAdmin(){
+  if (!isAdmin) return;
+  const locked = !unlocked;
+  $('#loginBox').classList.toggle('hide', !locked); $('#adminArea').classList.toggle('hide', locked); $('#logoutBtn').classList.toggle('hide', locked);
+  if (locked) { if (auth !== undefined && !$('#loginForm')) renderLogin(); return; }
+  $('#aTabs').innerHTML = ATABS.map(t => `<button class="${aTab === t[0] ? 'on' : ''}" data-at="${t[0]}">${t[1]}${t[0] === 'orders' ? ` (${allOrders().filter(o => o.status === 'new' || o.status === 'await').length})` : ''}</button>`).join('');
+  const f = { overview, orders: aOrders, carts: aCarts, visitors: aVisitors, menu: aMenu, coupons: aCoupons, reviews: aReviews, specials: aSpecials, settings: aSettings }[aTab];
+  $('#aBody').innerHTML = f();
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-at]'); if (b) { aTab = b.dataset.at; renderAdmin(); } });
+
+function overview(){
+  const s = S();
+  const os = allOrders().filter(o => o.status !== 'cancel' && (o.date || '').slice(0, 7) === month);
+  const rev = os.reduce((a, o) => a + o.total, 0);
+  let cost = 0, missing = new Set(); const byProd = {};
+  os.forEach(o => o.items.forEach(i => { const c = costOf(i.id); if (c == null || c === '') missing.add(i.name); else cost += c * i.qty;
+    const b = byProd[i.name] ||= { qty: 0, rev: 0, profit: 0 }; b.qty += i.qty; b.rev += i.price * i.qty; b.profit += (i.price - (+c || 0)) * i.qty; }));
+  const deliv = os.reduce((a, o) => a + (o.delivery || 0), 0);
+  const profit = rev - cost - deliv;
+  const visitors = adminData.visits.filter(v => Object.keys(v.days || {}).some(d => d.startsWith(month))).length;
+  const days = {}; os.forEach(o => days[o.date] = (days[o.date] || 0) + o.total);
+  const max = Math.max(1, ...Object.values(days));
+  const months = [...new Set(allOrders().map(o => (o.date || '').slice(0, 7)).concat(today().slice(0, 7)))].sort().reverse();
+  const warn = [];
+  if (!s.whatsapp) warn.push('رقم الواتساب'); if (!s.slots?.length) warn.push('أوقات الاستلام');
+  if (!adminData.costs.doughKg) warn.push('تكلفة العجينة والشوكلت (عشان نحسب ربحك)');
+  return `${warn.length ? `<div class="guide"><b>كمّلي الإعدادات عشان يشتغل كل شي:</b> ${warn.map(esc).join('، ')}</div>` : ''}
+  <div style="display:flex;gap:10px;align-items:center;margin:18px 0;flex-wrap:wrap"><h3>شهر</h3><select id="monthSel" style="width:auto">${months.map(m => `<option ${m === month ? 'selected' : ''}>${m}</option>`).join('')}</select></div>
+  <div class="kpis">
+    <div class="card kpi"><div class="l">الإيرادات</div><div class="v">${sar(rev)}</div><div class="l">كل اللي دفعه الزبائن</div></div>
+    <div class="card kpi"><div class="l">صافي الربح</div><div class="v" style="color:var(--ok)">${sar(profit)}</div><div class="l">الإيرادات − التكلفة − التوصيل</div></div>
+    <div class="card kpi"><div class="l">عدد الطلبات</div><div class="v">${os.length}</div><div class="l">متوسط الطلب ${sar(os.length ? rev / os.length : 0)}</div></div>
+    <div class="card kpi"><div class="l">الزوار</div><div class="v">${visitors}</div><div class="l">نسبة اللي طلبوا ${visitors ? Math.round(new Set(os.map(o => o._uid)).size / visitors * 100) : 0}%</div></div>
+  </div>
+  ${missing.size ? `<p class="err">تكلفة هذي المنتجات ناقصة، فالربح أعلى من الحقيقي: ${[...missing].map(esc).join('، ')}. أضيفيها من تبويب المنيو</p>` : ''}
+  <div class="two" style="margin-top:20px">
+    <div class="card"><h3>الإيرادات يوم بيوم</h3>${Object.keys(days).length ? `<div class="bars">${Object.keys(days).sort().map(d => `<div class="brow"><span>${d.slice(5)}</span><i style="width:${days[d] / max * 100}%"></i><span class="n">${sar(days[d])}</span></div>`).join('')}</div>` : '<p class="empty">ما فيه طلبات بهالشهر</p>'}</div>
+    <div class="card"><h3>أكثر منتج يربّح</h3><table><tr><th>المنتج</th><th>الكمية</th><th>الربح</th></tr>${Object.entries(byProd).sort((a, b) => b[1].profit - a[1].profit).map(([n, b]) => `<tr><td>${esc(n)}</td><td class="num">${b.qty}</td><td class="num">${sar(b.profit)}</td></tr>`).join('') || '<tr><td colspan="3" class="empty">—</td></tr>'}</table></div>
+  </div>
+  <details class="card" style="margin-top:20px"><summary><b>وش معنى هالأرقام؟</b></summary><p><b>الإيرادات</b> (Revenue): كل الفلوس اللي دخلت من الطلبات. <b>التكلفة</b> (Cost): اللي صرفتيه على العجينة والشوكلت والتغليف، من حاسبة التكلفة في تبويب المنيو. <b>صافي الربح</b> (Net Profit): الإيرادات ناقص التكلفة ناقص التوصيل. مثال: بوكس بـ 50 ريال تكلفته 22، ربحك منه 28.</p></details>`;
+}
+document.addEventListener('change', e => { if (e.target.id === 'monthSel') { month = e.target.value; renderAdmin(); } });
+
+function aOrders(){
+  const os = allOrders();
+  if (!os.length) return '<p class="empty">ما فيه طلبات للحين</p>';
+  return `<div class="scroll"><table class="stack"><thead><tr><th>الرقم</th><th>الزبون</th><th>الطلب</th><th>الموعد</th><th>الإجمالي</th><th>الحالة</th></tr></thead><tbody>
+  ${os.map(o => `<tr><td><b>${esc(o.num)}</b></td><td>${esc(o.name)}<br><span class="note">${esc(o.phone)}</span>${o.method === 'delivery' ? `<br><span class="note">توصيل: ${esc(o.area)}، ${esc(o.address)}</span>` : '<br><span class="note">استلام</span>'}</td>
+    <td>${o.items.map(i => esc(i.name) + ' × ' + i.qty).join('<br>')}${o.notes ? `<br><span class="note">ملاحظة: ${esc(o.notes)}</span>` : ''}${o.coupon ? `<br><span class="note">كود: ${esc(o.coupon)}</span>` : ''}</td>
+    <td>${esc(o.date)}<br><span class="note">${esc(o.slot)}</span></td><td class="num">${sar(o.total)}<br><span class="note">${o.pay === 'transfer' ? 'تحويل' : 'كاش'}</span></td>
+    <td><select data-ost="${esc(o._uid)}|${esc(o.id)}" aria-label="حالة الطلب">${STATUS.map(s => `<option value="${s[0]}" ${o.status === s[0] ? 'selected' : ''}>${s[1]}</option>`).join('')}</select>
+      <a class="note" href="https://wa.me/${esc(String(o.phone).replace(/^0/, '966'))}" target="_blank" rel="noopener">واتساب الزبون</a></td></tr>`).join('')}</tbody></table></div>`;
+}
+document.addEventListener('change', async e => {
+  const sel = e.target.closest('[data-ost]'); if (!sel) return;
+  const [u, id] = sel.dataset.ost.split('|'), st = sel.value;
+  try {
+    await db.doc('orders/' + u).update({ orders: { [id]: { status: st } } });
+    if (st === 'cancel') { // نرجع مكان الطلب لليوم
+      const o = allOrders().find(x => x.id === id), ld = loadDocs.find(x => x.id === u);
+      if (o && ld?.dates?.[o.date]) await db.doc('load/' + u).update({ dates: { [o.date]: Math.max(0, ld.dates[o.date] - 1) } });
+    }
+    toast('تحدّثت الحالة');
+  } catch(x) { toast('ما قدرنا نحدث الحالة'); }
+});
+
+function aCarts(){
+  const ordered = new Set(adminData.orders.map(d => d.id));
+  const list = adminData.carts.filter(c => !c.ordered && Object.keys(c.items || {}).length && Date.now() - c.updatedAt > 30 * 60e3).sort((a, b) => b.updatedAt - a.updatedAt);
+  resolveNames(list.map(c => c.id));
+  return `<p class="note">سلات انضاف لها منتجات وما كمّل أصحابها الطلب من أكثر من نص ساعة. فرصة تذكّرينهم أو تعطينهم كود خصم.</p>
+  ${list.length ? `<div class="scroll"><table class="stack"><thead><tr><th>الشخص</th><th>في السلة</th><th>القيمة</th><th>آخر تحديث</th></tr></thead><tbody>${list.map(c => {
+    const items = Object.entries(c.items).map(([id, q]) => ({ p: prodById(id), q })).filter(x => x.p);
+    return `<tr><td>${esc(names[c.id] || 'زائر')}${ordered.has(c.id) ? '<br><span class="note">طلب منك قبل</span>' : ''}</td><td>${items.map(x => esc(x.p.name) + ' × ' + x.q).join('<br>')}</td><td class="num">${sar(items.reduce((a, x) => a + x.p.price * x.q, 0))}</td><td>${new Date(c.updatedAt).toLocaleString('ar-SA')}</td></tr>`; }).join('')}</tbody></table></div>` : '<p class="empty">ما فيه سلات متروكة 👌</p>'}`;
+}
+
+function aVisitors(){
+  const m = month, vs = adminData.visits.filter(v => Object.keys(v.days || {}).some(d => d.startsWith(m)));
+  resolveNames(vs.map(v => v.id));
+  const adds = {}; let visits = 0, cos = 0;
+  vs.forEach(v => Object.entries(v.days).forEach(([d, x]) => { if (!d.startsWith(m)) return; visits += x.v || 0; cos += x.co || 0; Object.entries(x.adds || {}).forEach(([p, n]) => adds[p] = (adds[p] || 0) + n); }));
+  const orderers = new Set(allOrders().filter(o => (o.date || '').startsWith(m)).map(o => o._uid));
+  return `<div class="kpis"><div class="card kpi"><div class="l">زوار مختلفين</div><div class="v">${vs.length}</div></div><div class="card kpi"><div class="l">مرات الدخول</div><div class="v">${visits}</div></div>
+    <div class="card kpi"><div class="l">فتحوا صفحة الطلب</div><div class="v">${cos}</div></div><div class="card kpi"><div class="l">طلبوا فعلًا</div><div class="v">${orderers.size}</div></div></div>
+  <div class="two" style="margin-top:20px"><div class="card"><h3>أكثر منتج انضاف للسلة</h3><table>${Object.entries(adds).sort((a, b) => b[1] - a[1]).map(([p, n]) => `<tr><td>${esc(prodById(p)?.name || p)}</td><td class="num">${n}</td></tr>`).join('') || '<tr><td class="empty">—</td></tr>'}</table></div>
+  <div class="card"><h3>مين زار (شهر ${esc(m)})</h3><table>${vs.sort((a, b) => b.last - a.last).slice(0, 40).map(v => `<tr><td>${esc(names[v.id] || 'زائر')}</td><td class="note">${new Date(v.last).toLocaleDateString('ar-SA')}</td><td>${orderers.has(v.id) ? '<span class="pill done">طلب</span>' : ''}</td></tr>`).join('') || '<tr><td class="empty">—</td></tr>'}</table></div></div>`;
+}
+
+function costOf(id){
+  const c = adminData.costs, it = (c.items || {})[id];
+  if (!it) return null;
+  const d = +it.dough || 0, ch = +it.choc || 0, ex = +it.extra || 0;
+  if ((d && !c.doughKg) || (ch && !c.chocKg) || (!d && !ch && !ex)) return null;
+  return d * (+c.doughKg || 0) / 1000 + ch * (+c.chocKg || 0) / 1000 + ex;
+}
+function aMenu(){
+  const c = adminData.costs, ci = id => (c.items || {})[id] || {};
+  return `<form id="kgForm" class="card frame"><h3>حاسبة التكلفة</h3><p class="note">تكتبين سعر الكيلو مرة وحدة، وجرامات كل منتج تحت، والموقع يحسب تكلفة كل منتج وربحك. التكلفة تشوفينها أنتِ بس.</p>
+    <div class="row" style="margin-top:10px"><label>تكلفة 1 كيلو عجينة (ريال)<input name="doughKg" type="number" min="0" step="0.01" value="${esc(c.doughKg ?? '')}"></label>
+    <label>تكلفة 1 كيلو شوكلت بلجيكي (ريال)<input name="chocKg" type="number" min="0" step="0.01" value="${esc(c.chocKg ?? '')}"></label></div>
+    <button class="btn sm" style="margin-top:12px">احفظ الأسعار</button></form>
+  <div style="display:grid;gap:14px;margin-top:16px">
+  ${products.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99)).map(p => `<form class="card pform" data-pid="${esc(p.id)}"><div class="row">
+    <label>الاسم<input name="name" value="${esc(p.name)}"></label><label>الوصف<input name="desc" value="${esc(p.desc)}"></label>
+    <label>السعر (ريال)<input name="price" type="number" min="0" value="${esc(p.price)}"></label><label>جرام العجينة<input name="dough" type="number" min="0" value="${esc(ci(p.id).dough ?? '')}"></label><label>جرام الشوكلت<input name="choc" type="number" min="0" value="${esc(ci(p.id).choc ?? '')}"></label>
+    <label>تغليف وإضافات (ريال)<input name="extra" type="number" min="0" step="0.5" value="${esc(ci(p.id).extra ?? '')}"></label>
+    <div class="kpi"><div class="l">تكلفته · ربحك منه</div><div class="v" style="font-size:24px">${costOf(p.id) == null ? '—' : sar(costOf(p.id)) + ' · ' + sar(p.price - costOf(p.id))}</div></div>
+    <label>الرسمة<select name="icon">${Object.keys(ICONS).map(k => `<option ${p.icon === k ? 'selected' : ''}>${k}</option>`).join('')}</select></label><label>الترتيب<input name="order" type="number" value="${esc(p.order ?? 99)}"></label></div>
+    <div class="opts" style="margin-top:12px"><label class="opt"><input type="checkbox" name="active" ${p.active !== false ? 'checked' : ''} style="width:auto;min-height:0"> ظاهر</label>
+    <label class="opt"><input type="checkbox" name="soldOut" ${p.soldOut ? 'checked' : ''} style="width:auto;min-height:0"> خلص اليوم</label>
+    <label class="opt"><input type="checkbox" name="featured" ${p.featured ? 'checked' : ''} style="width:auto;min-height:0"> الأكثر طلبًا</label>
+    <button class="btn sm">احفظ</button><button type="button" class="btn ghost sm" data-delp="${esc(p.id)}">احذف</button></div></form>`).join('')}
+  </div><button class="btn pink" id="addProd" style="margin-top:16px">+ منتج جديد</button>`;
+}
+document.addEventListener('submit', async e => {
+  const f = e.target.closest('.pform'); if (!f) return; e.preventDefault();
+  const id = f.dataset.pid, v = n => f.elements[n];
+  const data = { id, name: v('name').value.trim(), desc: v('desc').value.trim(), price: +v('price').value || 0, icon: v('icon').value, order: +v('order').value || 99,
+    active: v('active').checked, soldOut: v('soldOut').checked, featured: v('featured').checked };
+  try { await db.doc('products/' + id).set(data);
+    const items = Object.assign({}, adminData.costs.items || {}, { [id]: { dough: +v('dough').value || 0, choc: +v('choc').value || 0, extra: +v('extra').value || 0 } });
+    await db.doc('private/costs').set(Object.assign({}, adminData.costs, { items })); toast('انحفظ'); } catch(x) { toast('ما انحفظ'); }
+});
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'kgForm') return; e.preventDefault(); const f = e.target;
+  try { await db.doc('private/costs').set(Object.assign({}, adminData.costs, { doughKg: +f.doughKg.value || 0, chocKg: +f.chocKg.value || 0 })); toast('انحفظ'); } catch(x) { toast('ما انحفظ'); }
+});
+document.addEventListener('click', async e => {
+  if (e.target.id === 'addProd') { const id = 'p' + Date.now().toString(36); await db.doc('products/' + id).set({ id, name: 'منتج جديد', desc: '', price: 0, icon: 'cookie', order: 99, active: false }).catch(() => {}); }
+  const d = e.target.closest('[data-delp]'); if (d) { if (d.dataset.sure) { await db.doc('products/' + d.dataset.delp).delete().catch(() => {}); } else { d.dataset.sure = 1; d.textContent = 'متأكدة؟ اضغطي مرة ثانية'; } }
+});
+
+function aCoupons(){
+  return `<form id="cpForm" class="card"><div class="row"><label>الكود<input name="code" placeholder="WELCOME10" required></label>
+    <label>النوع<select name="type"><option value="percent">نسبة %</option><option value="fixed">مبلغ ثابت</option></select></label>
+    <label>القيمة<input name="value" type="number" min="1" required></label><label>ينتهي (اختياري)<input name="expires" type="date"></label></div>
+    <button class="btn sm" style="margin-top:12px">أضيفي الكود</button></form>
+  <table style="margin-top:16px"><tr><th>الكود</th><th>الخصم</th><th>ينتهي</th><th>المرات المستخدمة</th><th></th></tr>
+  ${Object.entries(coupons).map(([k, c]) => `<tr><td><b>${esc(k)}</b></td><td>${c.type === 'percent' ? esc(c.value) + '%' : sar(c.value)}</td><td>${esc(c.expires || '—')}</td><td class="num">${allOrders().filter(o => o.coupon === k && o.status !== 'cancel').length}</td>
+    <td><button class="btn ghost sm" data-cptog="${esc(k)}">${c.active === false ? 'فعّلي' : 'أوقفي'}</button></td></tr>`).join('') || '<tr><td colspan="5" class="empty">ما فيه أكواد</td></tr>'}</table>`;
+}
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'cpForm') return; e.preventDefault(); const f = e.target;
+  const code = f.code.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); if (!code) return toast('الكود حروف إنجليزية وأرقام');
+  const all = Object.assign({}, coupons, { [code]: { type: f.type.value, value: +f.value.value, expires: f.expires.value || '', active: true } });
+  try { await db.doc('config/coupons').set({ items: all }); toast('انضاف الكود'); } catch(x) { toast('ما انحفظ'); }
+});
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-cptog]'); if (!b) return; const k = b.dataset.cptog;
+  const all = structuredClone(coupons); all[k].active = all[k].active === false; await db.doc('config/coupons').set({ items: all }).catch(() => {});
+});
+
+function aReviews(){
+  const list = reviewsDocs.flatMap(r => Object.entries(r.items || {}).map(([oid, x]) => Object.assign({ _uid: r.id, oid }, x))).sort((a, b) => b.at - a.at);
+  return list.length ? `<div class="reviews">${list.map(r => `<div class="card"><div style="color:var(--rose)">${'★'.repeat(r.stars)}</div><p>${esc(r.text) || '<span class="note">بدون تعليق</span>'}</p><p class="note">${esc(r.name)}</p>
+    <button class="btn sm ${r.approved ? 'ghost' : ''}" data-rev="${esc(r._uid)}|${esc(r.oid)}">${r.approved ? 'أخفيه' : 'اعرضيه في الموقع'}</button></div>`).join('')}</div>` : '<p class="empty">ما فيه تقييمات للحين</p>';
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-rev]'); if (!b) return; const [u, o] = b.dataset.rev.split('|');
+  const cur = reviewsDocs.find(r => r.id === u)?.items?.[o]; if (!cur) return;
+  await db.doc('reviews/' + u).update({ items: { [o]: { approved: !cur.approved } } }).catch(() => toast('ما انحفظ'));
+});
+
+function aSpecials(){
+  const list = adminData.specials.flatMap(d => Object.entries(d.items || {}).map(([id, x]) => Object.assign({ _uid: d.id, id }, x))).sort((a, b) => b.at - a.at);
+  return list.length ? `<div style="display:grid;gap:14px">${list.map(s => `<div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><h3>${esc(s.name)} · ${esc(s.occ || 'طلب خاص')}</h3><span class="pill ${s.status === 'new' ? 'new' : ''}">${s.status === 'new' ? 'جديد' : 'تم الرد'}</span></div>
+    <p>${esc(s.text)}</p><p class="note">${esc(s.phone)} · التاريخ المطلوب: ${esc(niceDate(s.date))}</p>
+    <div class="opts"><a class="btn sm pink" href="https://wa.me/${esc(String(s.phone).replace(/\D/g, '').replace(/^0/, '966'))}" target="_blank" rel="noopener">رد بالواتساب</a>
+    ${s.status === 'new' ? `<button class="btn ghost sm" data-spdone="${esc(s._uid)}|${esc(s.id)}">علّميه تم الرد</button>` : ''}</div></div>`).join('')}</div>` : '<p class="empty">ما فيه طلبات خاصة</p>';
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-spdone]'); if (!b) return; const [u, id] = b.dataset.spdone.split('|');
+  await db.doc('specials/' + u).update({ items: { [id]: { status: 'replied' } } }).catch(() => toast('ما انحفظ'));
+});
+
+function aSettings(){
+  const s = S();
+  const ck = (n, l) => `<label class="opt"><input type="checkbox" name="${n}" ${s[n] ? 'checked' : ''} style="width:auto;min-height:0"> ${l}</label>`;
+  return `<form id="setForm" class="card frame"><div class="opts">${ck('storeOpen', 'المتجر يستقبل طلبات')}${ck('pickupEnabled', 'استلام')}${ck('deliveryEnabled', 'توصيل')}${ck('payCash', 'كاش')}${ck('payTransfer', 'تحويل بنكي')}</div>
+  <div class="row" style="margin-top:16px">
+    <label>رقم الواتساب<input name="whatsapp" value="${esc(s.whatsapp)}" placeholder="05xxxxxxxx"></label>
+    <label>حد الطلبات باليوم<input name="dailyLimit" type="number" min="0" value="${esc(s.dailyLimit)}"></label>
+    <label>رسوم التوصيل (ريال)<input name="deliveryFee" type="number" min="0" value="${esc(s.deliveryFee)}"></label>
+    <label>كم يوم قدام يقدر يحجز<input name="daysAhead" type="number" min="1" max="21" value="${esc(s.daysAhead)}"></label></div>
+  <label style="margin-top:14px">أوقات الاستلام (كل وقت بسطر)<textarea name="slots">${esc((s.slots || []).join('\n'))}</textarea></label>
+  <label style="margin-top:14px">أحياء التوصيل (كل حي بسطر)<textarea name="areas">${esc((s.areas || []).join('\n'))}</textarea></label>
+  <label style="margin-top:14px">بيانات التحويل البنكي (تنعرض للزبون لو اختار تحويل)<textarea name="bankInfo">${esc(s.bankInfo)}</textarea></label>
+  <p style="margin:14px 0 6px;font-weight:500">أيام الإجازة</p><div class="opts">${DAYN.map((d, i) => `<label class="opt"><input type="checkbox" name="off${i}" ${(s.offDays || []).includes(i) ? 'checked' : ''} style="width:auto;min-height:0"> ${d}</label>`).join('')}</div>
+  <button class="btn" style="margin-top:16px">احفظ الإعدادات</button></form>`;
+}
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'setForm') return; e.preventDefault(); const f = e.target, lines = v => v.split('\n').map(x => x.trim()).filter(Boolean);
+  const data = { storeOpen: f.storeOpen.checked, pickupEnabled: f.pickupEnabled.checked, deliveryEnabled: f.deliveryEnabled.checked, payCash: f.payCash.checked, payTransfer: f.payTransfer.checked,
+    whatsapp: f.whatsapp.value.trim(), dailyLimit: +f.dailyLimit.value || 0, deliveryFee: +f.deliveryFee.value || 0, daysAhead: +f.daysAhead.value || 7,
+    slots: lines(f.slots.value), areas: lines(f.areas.value), bankInfo: f.bankInfo.value.trim(), offDays: DAYN.map((d, i) => i).filter(i => f['off' + i].checked) };
+  try { await db.doc('config/settings').set(data); toast('انحفظت الإعدادات'); } catch(x) { toast('ما انحفظ'); }
+});
+
+// ====== نجوم ولؤلؤ تلحق الماوس ======
+if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+  const COLS = ['#f4adcf','#bfc4ff','#b2f9e7','#fffabf','#ffe7ff'];
+  let lastT = 0, count = 0;
+  const spark = (x, y, burst) => {
+    if (count > 45) return; count++;
+    const el = document.createElement('span');
+    el.className = 'spark ' + (Math.random() < .5 ? 'star' : 'pearl');
+    const s = (burst ? 10 : 6) + Math.random() * 8, ang = Math.random() * Math.PI * 2, d = burst ? 40 + Math.random() * 40 : 12 + Math.random() * 14;
+    el.style.cssText = `left:${x}px;top:${y}px;--s:${s}px;--c:${COLS[Math.floor(Math.random() * COLS.length)]};--dx:${Math.cos(ang) * d}px;--dy:${Math.sin(ang) * d + (burst ? 0 : 18)}px`;
+    el.addEventListener('animationend', () => { el.remove(); count--; });
+    document.body.appendChild(el);
+  };
+  document.addEventListener('pointermove', e => { const now = performance.now(); if (now - lastT < 45) return; lastT = now; spark(e.clientX, e.clientY); });
+  document.addEventListener('pointerdown', e => { for (let i = 0; i < 8; i++) spark(e.clientX, e.clientY, true); });
+}
+
+// ====== التشغيل ======
+function rerender(){ renderMenu(); renderCart(); renderReviews(); if (location.hash === '#checkout') renderCheckout(); if (location.hash === '#track') renderMine(); if (location.hash === '#lolo-admin') renderAdmin(); }
+const docs = snap => snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+renderMenu(); renderCart(); route();
+(async () => {
+  const timer = setTimeout(() => { if (!products.length) $('#menuGrid').innerHTML = '<p class="empty">المنيو ما وصل للحين، جربي بعد شوي</p>'; }, 10000);
+  try { db = await window.claude?.use('db'); user = await window.claude?.use('user'); } catch(e){}
+  if (!db) { clearTimeout(timer); $('#menuGrid').innerHTML = '<p class="empty">سجّلي دخولك عشان يظهر المنيو</p>'; return; }
+  try { uid = await user?.id?.(); isAdmin = !!(await user?.canEdit?.()); } catch(e){}
+  db.collection('products').onSnapshot(s => { clearTimeout(timer); products = docs(s); rerender(); }, () => {});
+  db.doc('config/settings').onSnapshot(s => { settings = s.data() || {}; rerender(); }, () => {});
+  db.doc('config/coupons').onSnapshot(s => { coupons = s.data()?.items || {}; }, () => {});
+  db.collection('load').onSnapshot(s => { loadDocs = docs(s); if (location.hash === '#checkout') renderCheckout(); }, () => {});
+  db.collection('reviews').onSnapshot(s => { reviewsDocs = docs(s); renderReviews(); if (isAdmin && aTab === 'reviews') renderAdmin(); if (location.hash === '#track') renderMine(); }, () => {});
+  if (uid) {
+    db.doc('orders/' + uid).onSnapshot(s => { myDoc = s.data() || null; if (location.hash === '#track') renderMine(); }, () => {});
+    track('visit'); if (cartCount()) syncCart();
+  }
+  if (isAdmin) {
+    const sub = (path, key) => db.collection(path).onSnapshot(s => { adminData[key] = docs(s); if (location.hash === '#lolo-admin') renderAdmin(); }, () => {});
+    sub('orders', 'orders'); sub('carts', 'carts'); sub('visits', 'visits'); sub('specials', 'specials');
+    db.doc('private/auth').get().then(s => { auth = s.exists ? s.data() : null; if (location.hash === '#lolo-admin') renderAdmin(); }).catch(() => { auth = null; });
+    db.doc('private/costs').onSnapshot(s => { adminData.costs = s.data() || {}; if (location.hash === '#lolo-admin') renderAdmin(); }, () => {});
+  }
+  route();
+})();
+}
+</script>
+</body>
+</html>
